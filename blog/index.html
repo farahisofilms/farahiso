@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="es">
 <head>
     <title>Blog | Farahiso Films</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="/assets/css/main.css" />
     <style>
-        /* Estilos integrados para asegurar que se vea */
+        /* Estructura principal */
+        #wrapper { width: 100%; overflow-x: hidden; }
         .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
         
         .header-brand { text-align: center; margin-bottom: 60px; }
@@ -14,14 +15,14 @@
         .header-brand h2 { font-size: 1.8em; margin: 10px auto; text-transform: uppercase; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 5px; }
         
         /* Contenedor Gris con separación (GAP) */
-.blog-wrapper-grey { 
-    background: #999; 
-    padding: 40px; 
-    display: grid; 
-    /* Aquí está la magia: 1 columna en móvil, 3 en escritorio */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 40px; 
-}
+        .blog-wrapper-grey { 
+            background: #999; 
+            padding: 40px; 
+            display: grid; 
+            /* Se adapta: 1 columna en móvil, 3 en escritorio */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 40px; 
+        }
         
         /* Tarjetas */
         .blog-card { 
@@ -30,6 +31,7 @@
             display: flex; 
             flex-direction: column; 
             height: 100%;
+            box-sizing: border-box;
         }
         .blog-card img { width: 100%; height: 250px; object-fit: cover; margin-bottom: 20px; }
         .card-content { flex-grow: 1; display: flex; flex-direction: column; }
@@ -56,27 +58,31 @@
     <script>
         async function loadPosts() {
             const container = document.getElementById('posts');
-            const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
-            const files = await res.json();
-            
-            for (const file of files.filter(f => f.name.endsWith('.md'))) {
-                const contentRes = await fetch(file.download_url);
-                const text = await contentRes.text();
+            try {
+                const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
+                const files = await res.json();
                 
-                const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
-                const desc = (text.match(/description:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Haz clic para leer más.";
-                const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "/assets/images/pic01.jpg";
-                
-                container.innerHTML += `
-                    <div class="blog-card">
-                        <img src="${thumb}" alt="${title}">
-                        <div class="card-content">
-                            <h3>${title}</h3>
-                            <p>${desc}</p>
-                            <a href="/blog/${file.name.replace('.md','')}" class="btn-read">Leer más</a>
+                for (const file of files.filter(f => f.name.endsWith('.md'))) {
+                    const contentRes = await fetch(file.download_url);
+                    const text = await contentRes.text();
+                    
+                    const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
+                    const desc = (text.match(/description:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Haz clic para leer más.";
+                    const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "/assets/images/pic01.jpg";
+                    
+                    container.innerHTML += `
+                        <div class="blog-card">
+                            <img src="${thumb}" alt="${title}">
+                            <div class="card-content">
+                                <h3>${title}</h3>
+                                <p>${desc}</p>
+                                <a href="/blog/${file.name.replace('.md','')}" class="btn-read">Leer más</a>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
+            } catch (e) {
+                console.error("Error al cargar posts:", e);
             }
         }
         loadPosts();
