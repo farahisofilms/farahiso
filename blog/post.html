@@ -1,1 +1,43 @@
-
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+    <title>Entrada | Farahiso Films</title>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+        .main-wrapper { max-width: 900px; margin: 0 auto; padding: 50px 20px; }
+        .header-brand { text-align: center; margin-bottom: 60px; }
+        .header-brand h1 { font-size: 2.5em; margin: 0; color: #000; font-weight: 300; }
+        .header-brand h1 strong { font-weight: 700; }
+        
+        /* Diseño de la cabecera de la entrada */
+        .post-header { display: flex; align-items: center; gap: 40px; margin-bottom: 50px; }
+        .post-header img { width: 300px; height: 300px; object-fit: cover; }
+        .post-header h1 { font-size: 2.5em; font-weight: 700; margin: 0; }
+        .post-header h2 { font-size: 1.2em; font-weight: 300; color: #666; margin-top: 10px; }
+        
+        .post-content { line-height: 1.8; color: #333; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="header-brand">
+            <a href="/" style="text-decoration: none; color: #000;"><h1><strong>Farahiso</strong> Films</h1></a>
+            <a href="/blog" style="text-decoration: none; color: #666; font-weight: bold;">← VOLVER AL BLOG</a>
+        </div>
+        
+        <div id="post-container">
+            <!-- Aquí cargaremos el contenido dinámicamente -->
+            <div class="post-header">
+                <img id="post-thumb" src="" alt="">
+                <div>
+                    <h1 id="post-title"></h1>
+                    <h2 id="post-desc"></h2>
+                </div>
+            </div>
+            <div class="post-content" id="post-body"></div>
+        </div>
+    </div>
+</body>
+</html>
