@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: farahisofilms/farahiso # Tu usuario y repositorio de GitHub
+  branch: main # Tu rama principal
+
+media_folder: "assets/images/blog" # Dónde se guardarán las fotos que subas al blog
+public_folder: "/assets/images/blog"
+
+collections:
+  - name: "blog"
+    label: "Publicaciones del Blog"
+    folder: "blog" # Guardará los artículos dentro de la carpeta blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título del artículo", name: "title", widget: "string" }
+      - { label: "Fecha de publicación", name: "date", widget: "datetime" }
+      - { label: "Imagen de portada", name: "thumbnail", widget: "image" }
+      - { label: "Descripción corta (para Google)", name: "description", widget: "text" }
+      - { label: "Cuerpo del artículo", name: "body", widget: "markdown" }
