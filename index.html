@@ -122,45 +122,6 @@ Mi metodología es la de un ensamblador: tomo los fragmentos —una mirada furti
     font-size: 2rem !important;
   }
 
-  /* Arreglo para que Hero y About apilen sus columnas en móviles */
-/* Arreglo para que Hero y About dejen la derecha arriba y la izquierda abajo en móviles */
-@media (max-width: 768px) {
-  #hero .wrapper, #about .wrapper {
-    display: flex !important;
-    flex-direction: column-reverse !important; /* Esto sube la imagen y baja el texto */
-    height: auto !important;
-    padding: 40px 20px !important;
-  }
-
-  #hero .welcome, #about .blurb {
-    width: 100% !important;
-    float: none !important;
-    text-align: left !important;
-    margin-top: 30px !important; /* Espacio arriba ahora que el texto está abajo */
-    margin-bottom: 0 !important;
-  }
-
-#hero .photographer, #about .camera {
-    width: 100% !important;
-    height: auto !important;
-    min-height: unset !important;
-    overflow: visible !important; /* Esto evita que la caja corte la foto */
-    float: none !important;
-    display: block !important;
-    text-align: center !important;
-    margin-top: 30px !important;
-  }
-
-  #hero .photographer img, #about .camera img {
-    position: relative !important; /* Anula posiciones raras de la plantilla */
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    max-width: 100% !important;
-    height: auto !important;
-    display: inline-block !important;
-  }
-
 }
   /* Estilo para centrar la imagen dentro de la columna negra */
   #farahiso-wrapper .sidebar-img {
