@@ -140,19 +140,27 @@ Mi metodología es la de un ensamblador: tomo los fragmentos —una mirada furti
     margin-bottom: 0 !important;
   }
 
-  #hero .photographer, #about .camera {
+#hero .photographer, #about .camera {
     width: 100% !important;
+    height: auto !important;
+    min-height: unset !important;
+    overflow: visible !important; /* Esto evita que la caja corte la foto */
     float: none !important;
-    display: flex !important;
-    justify-content: center !important;
+    display: block !important;
+    text-align: center !important;
+    margin-top: 30px !important;
   }
 
   #hero .photographer img, #about .camera img {
+    position: relative !important; /* Anula posiciones raras de la plantilla */
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
     max-width: 100% !important;
     height: auto !important;
-    display: block !important;
+    display: inline-block !important;
   }
-  
+
 }
   /* Estilo para centrar la imagen dentro de la columna negra */
   #farahiso-wrapper .sidebar-img {
