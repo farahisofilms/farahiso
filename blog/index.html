@@ -5,50 +5,54 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="/assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
+		<style>
+			.blog-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 50px; }
+			.blog-card { background: #fff; padding: 20px; text-align: center; border: 1px solid #e0e0e0; }
+			.blog-card img { width: 100%; height: 250px; object-fit: cover; margin-bottom: 15px; }
+			.blog-card h3 { margin: 10px 0; font-size: 1.2em; }
+			.blog-card p { font-size: 0.9em; color: #666; }
+			.btn-read { display: inline-block; padding: 10px 20px; background: #bca374; color: #fff; text-decoration: none; margin-top: 15px; }
+		</style>
 	</head>
 	<body class="is-preload">
+		<div id="wrapper">
+			<header id="header">
+				<a href="/" class="title">Farahiso Films</a>
+			</header>
+			<section id="main" class="wrapper">
+				<div class="inner">
+					<h1 style="text-align: center;">BLOG</h1>
+					<div class="blog-container" id="posts"></div>
+				</div>
+			</section>
+		</div>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
-				<header id="header">
-					<a href="/" class="title">Farahiso Films</a>
-					<nav>
-						<ul>
-							<li><a href="/">Inicio</a></li>
-						</ul>
-					</nav>
-				</header>
-
-				<section id="main" class="wrapper">
-					<div class="inner">
-						<h1 class="major">Blog</h1>
-						<div id="blog-posts-container">
-                            <!-- Aquí se inyectará el contenido -->
+		<script>
+			async function loadPosts() {
+				const container = document.getElementById('posts');
+				const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
+				const files = await res.json();
+				
+				for (const file of files.filter(f => f.name.endsWith('.md'))) {
+					const contentRes = await fetch(file.download_url);
+					const text = await contentRes.text();
+					
+					// Extraemos datos del archivo Markdown
+					const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
+					const desc = (text.match(/description:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Haz clic para leer más.";
+					const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "/assets/images/pic01.jpg";
+					
+					container.innerHTML += `
+						<div class="blog-card">
+							<img src="${thumb}" alt="${title}">
+							<h3>${title}</h3>
+							<p>${desc}</p>
+							<a href="/blog/${file.name.replace('.md','')}" class="btn-read">Read More</a>
 						</div>
-					</div>
-				</section>
-			</div>
-
-			<script src="/assets/js/jquery.min.js"></script>
-			<script src="/assets/js/main.js"></script>
-            
-            <script>
-                async function loadPosts() {
-                    const container = document.getElementById('blog-posts-container');
-                    const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
-                    const files = await res.json();
-                    
-                    for (const file of files.filter(f => f.name.endsWith('.md'))) {
-                        const contentRes = await fetch(file.download_url);
-                        const text = await contentRes.text();
-                        // Extraemos el título simple
-                        const title = text.match(/title:\s*["']?([^"'\n]+)["']?/) ? text.match(/title:\s*["']?([^"'\n]+)["']?/)[1] : file.name;
-                        
-                        container.innerHTML += `<section><a href="/blog/${file.name.replace('.md','')}"><h2>${title}</h2></a></section>`;
-                    }
-                }
-                loadPosts();
-            </script>
+					`;
+				}
+			}
+			loadPosts();
+		</script>
 	</body>
 </html>
