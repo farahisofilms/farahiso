@@ -8,22 +8,21 @@
     <style>
         body { font-family: 'Montserrat', sans-serif; background: #fff; margin: 0; padding: 0; }
         .main-wrapper { max-width: 800px; margin: 0 auto; padding: 50px 20px; }
-        
         .header-brand { text-align: center; margin-bottom: 60px; }
         .header-brand h1 { font-size: 3.5em; margin: 0; color: #000; font-weight: 300; letter-spacing: -1px; }
         .header-brand h1 strong { font-weight: 700; }
         .header-brand h2 { font-size: 1.5em; margin: 10px auto; text-transform: uppercase; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 5px; font-weight: 400; letter-spacing: 2px; }
         
-        /* Estilos Listado */
-        .blog-wrapper-grey { background: #999; padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .blog-card { background: #fff; padding: 30px; }
+        .blog-wrapper-grey { background: #999; padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .blog-card { background: #fff; padding: 20px; }
         
-        /* Estilos Post Único en Bloque */
         .post-single { text-align: left; }
         .post-single h1 { font-size: 3.5em; margin-bottom: 20px; }
-        .post-single .featured-img { width: 100%; height: auto; margin-bottom: 30px; }
+        .featured-img { width: 100%; height: auto; margin-bottom: 30px; }
         .post-body { font-size: 1.2em; line-height: 1.8; color: #333; }
         .back-link { display: inline-block; margin-bottom: 30px; color: #000; font-weight: bold; text-decoration: none; }
+        
+        #load-more { display: block; width: 200px; margin: 40px auto; padding: 15px; background: #000; color: #fff; text-align: center; cursor: pointer; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -33,12 +32,18 @@
             <h2>BLOG</h2>
         </div>
         <div id="content"></div>
+        <div id="btn-container"></div>
     </div>
 
     <script>
         const contentDiv = document.getElementById('content');
+        const btnContainer = document.getElementById('btn-container');
         const urlParams = new URLSearchParams(window.location.search);
         const postName = urlParams.get('post');
+        
+        let allPosts = [];
+        let displayedCount = 0;
+        const postsPerPage = 3;
 
         async function init() {
             if (postName) {
@@ -60,20 +65,32 @@
             } else {
                 contentDiv.className = "blog-wrapper-grey";
                 const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
-                const files = await res.json();
-                for (const file of files.filter(f => f.name.endsWith('.md'))) {
-                    const contentRes = await fetch(file.download_url);
-                    const text = await contentRes.text();
-                    const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
-                    const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "assets/img/hero.png";
-                    contentDiv.innerHTML += `
-                        <div class="blog-card">
-                            <img src="${thumb}" style="width:100%; height:250px; object-fit:cover;">
-                            <h3>${title}</h3>
-                            <a href="?post=${file.name.replace('.md','')}" style="display:block; background:#000; color:#fff; padding:12px; text-decoration:none; text-align:center;">Leer más</a>
-                        </div>
-                    `;
-                }
+                allPosts = (await res.json()).filter(f => f.name.endsWith('.md'));
+                renderPosts();
+            }
+        }
+
+        async function renderPosts() {
+            const end = Math.min(displayedCount + postsPerPage, allPosts.length);
+            for (let i = displayedCount; i < end; i++) {
+                const file = allPosts[i];
+                const text = await (await fetch(file.download_url)).text();
+                const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
+                const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "assets/img/hero.png";
+                contentDiv.innerHTML += `
+                    <div class="blog-card">
+                        <img src="${thumb}" style="width:100%; height:200px; object-fit:cover;">
+                        <h3>${title}</h3>
+                        <a href="?post=${file.name.replace('.md','')}" style="display:block; background:#000; color:#fff; padding:10px; text-decoration:none; text-align:center;">Leer más</a>
+                    </div>
+                `;
+            }
+            displayedCount = end;
+            if (displayedCount < allPosts.length) {
+                btnContainer.innerHTML = `<a id="load-more">CARGAR MÁS</a>`;
+                document.getElementById('load-more').onclick = renderPosts;
+            } else {
+                btnContainer.innerHTML = "";
             }
         }
         init();
