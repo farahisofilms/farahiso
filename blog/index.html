@@ -4,45 +4,78 @@
     <title>Blog | Farahiso Films</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <style>
+        /* Estilos integrados para asegurar que se vea */
+        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+        
+        .header-brand { text-align: center; margin-bottom: 60px; }
+        .header-brand h1 { font-size: 2.5em; margin: 0; color: #000; }
+        .header-brand h2 { font-size: 1.8em; margin: 10px auto; text-transform: uppercase; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 5px; }
+        
+        /* Contenedor Gris con separación (GAP) */
+        .blog-wrapper-grey { 
+            background: #999; 
+            padding: 40px; 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 40px; 
+        }
+        
+        /* Tarjetas */
+        .blog-card { 
+            background: #fff; 
+            padding: 30px; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100%;
+        }
+        .blog-card img { width: 100%; height: 250px; object-fit: cover; margin-bottom: 20px; }
+        .card-content { flex-grow: 1; display: flex; flex-direction: column; }
+        .blog-card h3 { font-size: 1.6em; margin: 15px 0; color: #222; }
+        .blog-card p { font-size: 1.2em; color: #555; margin-bottom: 20px; }
+        
+        .btn-read { 
+            display: inline-block; padding: 15px; background: #444; color: #fff; 
+            text-decoration: none; text-align: center; font-weight: bold; margin-top: auto;
+        }
+    </style>
 </head>
-<body style="background-color: #f0f0f0; margin: 0; padding: 0;">
-
-    <div style="max-width: 1200px; margin: 0 auto; padding: 50px 20px; text-align: center;">
-        <h1 style="font-size: 2.5em; color: #000;">Farahiso Films</h1>
-        <h2 style="font-size: 1.8em; border-bottom: 2px solid #333; display: inline-block;">BLOG</h2>
-    </div>
-
-    <!-- Contenedor gris con separación forzada -->
-    <div id="posts" style="background-color: #999; padding: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto;">
-        <!-- Los posts aparecerán aquí -->
+<body>
+    <div id="wrapper">
+        <div class="main-wrapper">
+            <div class="header-brand">
+                <h1>Farahiso Films</h1>
+                <h2>BLOG</h2>
+            </div>
+            <div class="blog-wrapper-grey" id="posts"></div>
+        </div>
     </div>
 
     <script>
         async function loadPosts() {
             const container = document.getElementById('posts');
-            try {
-                const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
-                const files = await res.json();
+            const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
+            const files = await res.json();
+            
+            for (const file of files.filter(f => f.name.endsWith('.md'))) {
+                const contentRes = await fetch(file.download_url);
+                const text = await contentRes.text();
                 
-                for (const file of files.filter(f => f.name.endsWith('.md'))) {
-                    const contentRes = await fetch(file.download_url);
-                    const text = await contentRes.text();
-                    
-                    const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
-                    const desc = (text.match(/description:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Haz clic para leer más.";
-                    const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "/assets/images/pic01.jpg";
-                    
-                    container.innerHTML += `
-                        <div style="background-color: white; padding: 30px; display: flex; flex-direction: column;">
-                            <img src="${thumb}" style="width: 100%; height: 200px; object-fit: cover;">
-                            <h3 style="margin: 15px 0;">${title}</h3>
-                            <p style="flex-grow: 1;">${desc}</p>
-                            <a href="/blog/${file.name.replace('.md','')}" style="background: #444; color: white; padding: 15px; text-decoration: none; margin-top: 20px;">Leer más</a>
+                const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
+                const desc = (text.match(/description:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Haz clic para leer más.";
+                const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "/assets/images/pic01.jpg";
+                
+                container.innerHTML += `
+                    <div class="blog-card">
+                        <img src="${thumb}" alt="${title}">
+                        <div class="card-content">
+                            <h3>${title}</h3>
+                            <p>${desc}</p>
+                            <a href="/blog/${file.name.replace('.md','')}" class="btn-read">Leer más</a>
                         </div>
-                    `;
-                }
-            } catch (e) {
-                console.error("Error cargando:", e);
+                    </div>
+                `;
             }
         }
         loadPosts();
