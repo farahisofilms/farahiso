@@ -8,6 +8,8 @@ description: TIPS para novios que quieren ideas para su boda
 
 Organizar una boda es un proyecto precioso, pero la cantidad de decisiones que hay que tomar puede llegar a abrumar a cualquier pareja. Desde la elección del espacio hasta los pequeños detalles del gran día, mantener el control y disfrutar del proceso es posible si cuentas con la estrategia adecuada.Si estáis planeando una **boda en Málaga o Marbella** —o en cualquier otro rincón mágico de Andalucía—, habéis elegido un destino espectacular. Para ayudaros a que todo salga a la perfección y disfrutéis al máximo del camino, hemos recopilado estos 7 consejos prácticos imprescindibles para novios.
 
+![](/assets/images/blog/logo.png)
+
 
 
 **1. Definid el Presupuesto Real desde el Primer Día**
