@@ -122,6 +122,72 @@ Mi metodología es la de un ensamblador: tomo los fragmentos —una mirada furti
     font-size: 2rem !important;
   }
 
+  /* Arreglo para que Hero y About apilen sus columnas en móviles */
+/* Corrección total para móviles: Fuerza de altura y orden visual */
+@media (max-width: 768px) {
+  /* OBLIGAR A LAS SECCIONES A CRECER SEGÚN SU CONTENIDO */
+  #hero, #about, #featured {
+    height: auto !important;
+    min-height: unset !important;
+    max-height: unset !important;
+    overflow: visible !important;
+    padding: 60px 0 !important;
+    display: block !important;
+  }
+
+  /* Forzar orden: Imagen ARRIBA, texto ABAJO */
+  #hero .wrapper, #about .wrapper, #featured .wrapper {
+    display: flex !important;
+    flex-direction: column-reverse !important; 
+    height: auto !important;
+    min-height: unset !important;
+    padding: 20px !important;
+    transform: none !important;
+    width: 100% !important;
+  }
+
+  /* Resetear los bloques de texto */
+  #hero .welcome, #about .blurb, #featured .blurb {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    left: auto !important;
+    top: auto !important;
+    float: none !important;
+    text-align: left !important;
+    margin-top: 30px !important;
+    transform: none !important;
+  }
+
+  /* Resetear los contenedores de las imágenes para que aparezcan */
+  #hero .photographer, #about .camera, #featured .featured {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: unset !important;
+    max-height: unset !important;
+    overflow: visible !important;
+    float: none !important;
+    left: auto !important;
+    top: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transform: none !important;
+  }
+
+  /* Forzar que las imágenes se adapten y se vean completas */
+  #hero .photographer img, #about .camera img, #featured .featured img {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: unset !important;
+    display: block !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
 }
   /* Estilo para centrar la imagen dentro de la columna negra */
   #farahiso-wrapper .sidebar-img {
