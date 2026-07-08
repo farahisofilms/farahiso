@@ -20,7 +20,7 @@ Antes de mirar fincas o enamoraros de un vestido, sentaos a hablar de números. 
 
 El sur de España ofrece una variedad de escenarios increíble, por lo que es importante que el lugar encaje con vuestra personalidad:
 
-* **Marbella**: Si buscáis exclusividad, lujo y una fiesta frente al mar, una **boda en Marbella** con sus clubes de playa y villas privadas es vuestra opción ideal.
+* **Marbella**: Si buscáis exclusividad, lujo y una fiesta frente al mar, una b**oda en Marbella** con sus clubes de playa y villas privadas es vuestra opción ideal.
 * **Málaga**
 
   : Para un equilibrio entre fincas históricas, jardines tropicales y comodidad logística para los invitados, la zona de 
