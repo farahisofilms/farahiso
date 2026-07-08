@@ -7,54 +7,83 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Montserrat', sans-serif; background: #fff; margin: 0; padding: 0; }
-        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+        .main-wrapper { max-width: 1000px; margin: 0 auto; padding: 50px 20px; }
         .header-brand { text-align: center; margin-bottom: 60px; }
         .header-brand h1 { font-size: 3.5em; margin: 0; color: #000; font-weight: 300; letter-spacing: -1px; }
         .header-brand h1 strong { font-weight: 700; }
         .header-brand h2 { font-size: 1.5em; margin: 10px auto; text-transform: uppercase; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 5px; font-weight: 400; letter-spacing: 2px; }
+        
+        /* Grid de índice */
         .blog-wrapper-grey { background: #999; padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
         .blog-card { background: #fff; padding: 30px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }
         .blog-card img { width: 100%; height: 250px; object-fit: cover; margin-bottom: 20px; }
-        .blog-card h3 { font-size: 1.5em; margin: 15px 0 10px 0; color: #000; font-weight: 700; }
-        .blog-card p { font-size: 1.1em; color: #555; line-height: 1.6; margin-bottom: 20px; font-weight: 300; }
-        .btn-read { display: inline-block; padding: 12px 20px; background: #000; color: #fff; text-decoration: none; text-align: center; font-weight: bold; margin-top: auto; text-transform: uppercase; font-size: 0.9em; }
+        
+        /* Estilos Post Individual */
+        .post-container { display: flex; gap: 40px; align-items: flex-start; }
+        .post-image { width: 40%; }
+        .post-image img { width: 100%; border-radius: 8px; }
+        .post-text { width: 60%; }
+        .post-text h1 { font-size: 2.5em; font-weight: 700; margin-top: 0; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #000; font-weight: bold; text-decoration: none; }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="header-brand">
-            <a href="/" style="text-decoration: none; color: inherit;">
-                <h1><strong>Farahiso</strong> Films</h1>
-            </a>
-            <h2>BLOG</h2>
+            <a href="/" style="text-decoration: none; color: inherit;"><h1><strong>Farahiso</strong> Films</h1></a>
+            <a href="/blog" style="text-decoration: none;"><h2>BLOG</h2></a>
         </div>
-        <div class="blog-wrapper-grey" id="posts"></div>
+        <div id="content"></div>
     </div>
 
     <script>
-        async function loadPosts() {
-            const container = document.getElementById('posts');
-            try {
+        const contentDiv = document.getElementById('content');
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileName = urlParams.get('post');
+
+        async function init() {
+            if (fileName) {
+                // Cargar Post Específico
+                const res = await fetch(`https://api.github.com/repos/farahisofilms/farahiso/contents/blog/${fileName}.md`);
+                const file = await res.json();
+                const contentRes = await fetch(file.download_url);
+                const text = await contentRes.text();
+                
+                const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
+                const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "assets/img/hero.png";
+                const body = text.split('---').pop(); // Asume que el MD empieza con ---
+
+                contentDiv.innerHTML = `
+                    <a href="/blog" class="back-link">← Volver al Blog</a>
+                    <div class="post-container">
+                        <div class="post-image"><img src="${thumb}"></div>
+                        <div class="post-text">
+                            <h1>${title}</h1>
+                            <div style="line-height:1.8">${body.replace(/\n/g, '<br>')}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Cargar Listado (Índice)
+                contentDiv.className = "blog-wrapper-grey";
                 const res = await fetch('https://api.github.com/repos/farahisofilms/farahiso/contents/blog');
                 const files = await res.json();
                 for (const file of files.filter(f => f.name.endsWith('.md'))) {
                     const contentRes = await fetch(file.download_url);
                     const text = await contentRes.text();
                     const title = (text.match(/title:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Sin título";
-                    const desc = (text.match(/description:\s*["']?([^"'\n]+)["']?/) || [])[1] || "Haz clic para leer más.";
                     const thumb = (text.match(/thumbnail:\s*["']?([^"'\n]+)["']?/) || [])[1] || "assets/img/hero.png";
-                    container.innerHTML += `
+                    contentDiv.innerHTML += `
                         <div class="blog-card">
-                            <img src="${thumb}" alt="${title}">
+                            <img src="${thumb}">
                             <h3>${title}</h3>
-                            <p>${desc}</p>
-                            <a href="/blog/${file.name.replace('.md','')}" class="btn-read">Leer más</a>
+                            <a href="?post=${file.name.replace('.md','')}" style="background:#000; color:#fff; padding:10px; text-decoration:none; text-align:center;">Leer más</a>
                         </div>
                     `;
                 }
-            } catch (e) { console.error(e); }
+            }
         }
-        loadPosts();
+        init();
     </script>
 </body>
 </html>
