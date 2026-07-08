@@ -1,7 +1,8 @@
 backend:
-  name: github
-  repo: farahisofilms/farahiso # Tu usuario y repositorio de GitHub
-  branch: main # Tu rama principal
+  name: git-gateway
+  site_domain: benevolent-horse-c5b9e0.netlify.app
+  repo: farahisofilms/farahiso
+  branch: main
 
 media_folder: "assets/images/blog" # Dónde se guardarán las fotos que subas al blog
 public_folder: "/assets/images/blog"
