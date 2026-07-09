@@ -1,44 +1,25 @@
-<!-- Sección: Un recuerdo eterno -->
-<section class="dossier-section">
-  <div class="content-wrapper">
-    <div class="text-block">
-      <h2>UN RECUERDO ETERNO PARA UN DÍA FUGAZ.</h2>
-      <p>Capturamos la esencia de lo real para narrarla con la magia y la profundidad del séptimo arte.</p>
-      <p>Entiendo perfectamente que el día de vuestra boda es una experiencia tan intensa...</p>
-    </div>
-  </div>
-</section>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css"> <!-- Esto conecta tu diseño -->
+</head>
+<body>
+    <section class="dossier-section">
+        <div class="content-wrapper">
+            <div class="text-block">
+                <h2>UN RECUERDO ETERNO PARA UN DÍA FUGAZ.</h2>
+                <p>Capturamos la esencia de lo real para narrarla con la magia y la profundidad del séptimo arte.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- Sección: La esencia de lo real (con imagen) -->
-<section class="dossier-section image-split">
-  <img src="tu-imagen-encaje.jpg" alt="Detalle encaje">
-  <div class="text-block">
-    <h3>La esencia de lo real</h3>
-    <p>Mi compromiso es que durante vuestro día os olvidéis de que estoy ahí...</p>
-  </div>
-</section>
-  .dossier-section {
-  padding: 60px 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-h2 {
-  font-size: 3rem; /* Tamaño grande y contundente */
-  line-height: 0.9;
-  font-weight: 800;
-  letter-spacing: -2px;
-}
-
-.image-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Divide en 2 columnas */
-  gap: 40px;
-  align-items: center;
-}
-
-/* Tipografía: Usa una Sans Serif muy gruesa (tipo 'Archivo Black' o similar) */
-body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background-color: #fdfdfd;
-}
+    <section class="dossier-section image-split">
+        <!-- AQUÍ ESTÁ EL FALLO DE LA IMAGEN: -->
+        <img src="assets/encaje.jpg" alt="Detalle encaje"> 
+        <div class="text-block">
+            <h3>La esencia de lo real</h3>
+            <p>Mi compromiso es que durante vuestro día os olvidéis de que estoy ahí...</p>
+        </div>
+    </section>
+</body>
+</html>
