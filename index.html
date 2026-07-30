@@ -109,7 +109,21 @@ Mi metodología es la de un ensamblador: tomo los fragmentos —una mirada furti
     position: relative !important;
     z-index: 9999 !important; /* Evita que el '0' gris tape el texto */
   }
-  
+  #full-slide {
+  position: relative !important;
+}
+
+@media (max-width: 768px) {
+  #full-slide {
+    height: 350px !important;
+    min-height: unset !important;
+    background-image: url('assets/img/three-slide/thumb-2.jpg') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-color: #0f1210 !important;
+  }
+}
   #farahiso-wrapper .sidebar {
     background: #000 !important;
     color: #fff !important;
