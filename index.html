@@ -109,39 +109,7 @@ Mi metodología es la de un ensamblador: tomo los fragmentos —una mirada furti
     position: relative !important;
     z-index: 9999 !important; /* Evita que el '0' gris tape el texto */
   }
-  /* --- SOLUCIÓN ROBUSTA PARA #FULL-SLIDE EN MÓVIL --- */
-@media (max-width: 768px) {
-  /* 1. Aseguramos que la sección tenga espacio y no se oculte */
-  #full-slide {
-    display: block !important;
-    height: auto !important;
-    min-height: unset !important;
-    padding: 30px 15px !important;
-    background: #0f1210 !important; /* Fondo oscuro elegante */
-    text-align: center !important;
-  }
-
-  /* 2. Ocultamos los elementos del carrusel de escritorio que rompen la vista en móvil */
-  #full-slide .banner,
-  #full-slide .prev,
-  #full-slide .next {
-    display: none !important;
-  }
-
-  /* 3. Inyectamos la imagen 'thumb-2' como una foto real adaptada y completa */
-  #full-slide::before {
-    content: "";
-    display: block;
-    width: 100%;
-    /* Mantiene la proporción para que no se corte por los lados */
-    aspect-ratio: 16 / 7; 
-    background-image: url('assets/img/three-slide/thumb-2.jpg') !important;
-    background-size: contain !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-    margin: 0 auto;
-  }
-}
+  
   #farahiso-wrapper .sidebar {
     background: #000 !important;
     color: #fff !important;
